@@ -1,4 +1,5 @@
 plugins {
+    kotlin("plugin.serialization") version "1.9.0"
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 }
@@ -51,6 +52,9 @@ android {
 
 dependencies {
 
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     implementation (libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

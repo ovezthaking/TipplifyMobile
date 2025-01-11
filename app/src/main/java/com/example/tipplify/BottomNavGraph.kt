@@ -7,9 +7,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.tipplify.model.RecipeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -27,15 +29,21 @@ fun BottomNavGraph(navController: NavHostController) {
                 WelcomeScreen { navController.navigate(Screens.MainScreen.route) }
             }
             composable(route = Screens.MainScreen.route) {
-                MainScreen { navController.navigate(Screens.RecipeScreen.route) }
+                val viewModel = viewModel<RecipeViewModel>()
+                MainScreen(onRecipeScreen = { recipeId ->
+                    navController.navigate(Screens.RecipeScreen(recipeId).createRoute())
+                }, viewModel = viewModel)
+            }
+            composable(
+                route = Screens.RecipeScreen(0).route,
+            ) { backStackEntry ->
+                val recipeId = backStackEntry.arguments?.getString("recipeId")?.toIntOrNull() ?: 0
+                val viewModel = viewModel<RecipeViewModel>()
+                RecipeScreen(recipeId = recipeId, viewModel = viewModel)
             }
             composable(route = Screens.AddRecipeScreen.route) {
                 AddRecipeScreen { navController.navigate(Screens.MainScreen.route) }
             }
-            composable(route = Screens.RecipeScreen.route) {
-                RecipeScreen()
-            }
         }
     }
 }
-

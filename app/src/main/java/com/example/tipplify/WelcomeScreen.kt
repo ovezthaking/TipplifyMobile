@@ -34,7 +34,7 @@ fun WelcomeScreen(onMainScreen: () -> Unit) {
         verticalArrangement = Arrangement.Center
     ) {
         Text("Witaj w Tipplify!", color = Color(0xFFffffff))
-        Text("", color = Color(0xFFffffff), fontSize = 12.sp)
+        Spacer(modifier = Modifier.height(20.dp))
         Text(
             "Znajdź ulubione przepisy",
             color = Color(0xFFffffff),
@@ -48,8 +48,7 @@ fun WelcomeScreen(onMainScreen: () -> Unit) {
         ) {
             Text("Rozpocznij!")
         }
-        Text("", color = Color(0xFFffffff))
-        Text("", color = Color(0xFFffffff))
+        Spacer(modifier = Modifier.height(60.dp))
         Image(
             painter = painterResource(id = R.drawable.welcometipple),
             contentDescription = "Welcome To Tipplify"
