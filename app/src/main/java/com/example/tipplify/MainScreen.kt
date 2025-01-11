@@ -17,7 +17,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -32,63 +34,73 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tipplify.model.RecipeViewModel
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import com.example.tipplify.model.Recipe
 
 @Composable
 fun MainScreen(onRecipeScreen: (Int) -> Unit, viewModel: RecipeViewModel) {
+
+
     val recipes by viewModel.recipes.collectAsState()
+    var searchText by remember { mutableStateOf("") } // Stan dla tekstu wyszukiwania
+    val filteredRecipes = searchRecipes(searchText, recipes) // Filtrowanie przepisów
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .paint(
                 painterResource(id = R.drawable.background), contentScale = ContentScale.FillHeight
             )
-
     ){
         Column(modifier = Modifier.fillMaxWidth(),horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Text("Przepisy", modifier = Modifier.padding(top = 40.dp), fontSize = 30.sp, color = Color(0xFFffffff))
+            Text("Przepisy", modifier = Modifier.padding(top = 40.dp), fontSize = 30.sp, color = Color(0xFFffffff))
         }
         Column(
             Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
-
         ) {
-
-            Spacer(modifier = Modifier.height(8.dp))
+            TextField(
+                colors = OutlinedTextFieldDefaults.colors( unfocusedContainerColor = Color.Black.copy(alpha = 0.5f), unfocusedTextColor = Color.White, unfocusedLabelColor = Color.White.copy(alpha = 0.5f), unfocusedBorderColor = Color.Black.copy(alpha = 0.5f)),
+                modifier = Modifier
+                    .padding(top = 150.dp)
+                    .background(color = Color.Gray.copy(alpha = 0.5f)),
+                value = searchText,
+                onValueChange = { searchText = it },
+                label = { Text("Wyszukaj przepis...") }
+            )
 
             LazyColumn(
                 modifier = Modifier
-                    .padding(start = 16.dp, top = 150.dp, end = 16.dp),
-                    //.height(300.dp),
-
-
-
-
-                //horizontalAlignment = Alignment.CenterHorizontally,
-                //verticalArrangement = Arrangement.Center
+                    .padding(start = 16.dp, top = 80.dp, end = 16.dp),
             ) {
-                items(recipes.size) { index ->
-                    Text(text = recipes[index].name,
+                items(filteredRecipes.size) { index -> // Użyj filteredRecipes
+                    Text(text = filteredRecipes[index].name,
                         textAlign = TextAlign.Center,
                         color = Color(0xFFffffff),
-                        modifier = Modifier.clickable { onRecipeScreen(recipes[index].id) }
+                        modifier = Modifier
+                            .clickable { onRecipeScreen(filteredRecipes[index].id) }
                             .padding(bottom = 8.dp)
-                            .background(color = Color.Gray.copy(alpha = 0.5f))
+                            .background(
+                                color = Color.Gray.copy(alpha = 0.5f),
+                                shape = androidx.compose.foundation.shape.RoundedCornerShape(10.dp)
+                            )
                             .width(280.dp)
-                            //.fillMaxWidth()
                             .defaultMinSize(minHeight = 35.dp)
                             .wrapContentSize(Alignment.Center)
                     )
                 }
             }
-            /*
-            recipes.forEach { recipe ->
-                Text(text = recipe.name,
-                    modifier = Modifier.clickable { onRecipeScreen(recipe.id) }
-                )
-            }
-             */
         }
+    }
+}
+
+fun searchRecipes(query: String, recipes: List<Recipe>): List<Recipe> {
+    return recipes.filter { recipe ->
+        recipe.name.contains(query, ignoreCase = true)
     }
 }
 
