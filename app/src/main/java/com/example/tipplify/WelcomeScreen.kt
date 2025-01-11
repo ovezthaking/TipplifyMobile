@@ -26,7 +26,6 @@ import com.example.tipplify.ui.theme.TipplifyTheme
 
 @Composable
 fun WelcomeScreen(onMainScreen: () -> Unit) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -36,9 +35,17 @@ fun WelcomeScreen(onMainScreen: () -> Unit) {
     ) {
         Text("Witaj w Tipplify!", color = Color(0xFFffffff))
         Text("", color = Color(0xFFffffff), fontSize = 12.sp)
-        Text("Znajdź ulubione przepisy", color = Color(0xFFffffff), fontSize = 12.sp, modifier = Modifier.padding(bottom = 3.dp))
+        Text(
+            "Znajdź ulubione przepisy",
+            color = Color(0xFFffffff),
+            fontSize = 12.sp,
+            modifier = Modifier.padding(bottom = 3.dp)
+        )
         Spacer(modifier = Modifier.height(8.dp))
-        Button(onClick = onMainScreen, colors = ButtonDefaults.buttonColors(containerColor = Color.Gray) ) {
+        Button(
+            onClick = onMainScreen,
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
+        ) {
             Text("Rozpocznij!")
         }
         Text("", color = Color(0xFFffffff))
@@ -47,15 +54,13 @@ fun WelcomeScreen(onMainScreen: () -> Unit) {
             painter = painterResource(id = R.drawable.welcometipple),
             contentDescription = "Welcome To Tipplify"
         )
-
     }
-
 }
 
 @Preview(showBackground = true)
 @Composable
 fun WelcomePreview(){
     TipplifyTheme {
-        WelcomeScreen{}
+        WelcomeScreen(onMainScreen = {})
     }
 }

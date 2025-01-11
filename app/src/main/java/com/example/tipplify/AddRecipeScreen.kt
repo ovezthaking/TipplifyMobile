@@ -19,7 +19,7 @@ fun AddRecipeScreen(onMainScreen: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text("Home Screen")
+        Text("Dodaj przepis!")
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = onMainScreen) {
             Text("Go to Second Screen")

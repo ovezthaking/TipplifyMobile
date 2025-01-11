@@ -22,7 +22,7 @@ fun MainScreen(onRecipeScreen: () -> Unit) {
         Text("Home Screen")
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = onRecipeScreen) {
-            Text("Go to Second Screen")
+            Text("Go to Recipe Screen")
         }
     }
 }
