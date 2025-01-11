@@ -1,2 +1,2 @@
 # TipplifyMobile
-The application created for finding cocktail recipes and creating them
+The mobile application that allows you to find cocktail recipes and creating them
