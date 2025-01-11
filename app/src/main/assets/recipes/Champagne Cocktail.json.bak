@@ -1,0 +1,11 @@
+{
+	"name": "Champagne Cocktail",
+	"description": "Kostkę cukru nasączamy angosturą i umieszczamy w kieliszku. Wlewamy na nią koniak, następnie powoli dodajemy szampan. Champagne cocktail możemy ozdobić plastrem pomarańczy i wisienką koktajlową.",
+    "photoPath": "Assets/champagnecocktail.png",
+    "ingredients": [
+    "90 ML WYTRAWNEGO SZAMPANA 🍾",
+    "10 ML KONIAKU 🥃",
+    "DWIE KROPLE ANGOSTURY 🍼",
+    "KOSTKA CUKRU 🧊"
+  ]
+  }

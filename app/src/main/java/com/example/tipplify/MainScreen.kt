@@ -1,5 +1,6 @@
 package com.example.tipplify
 
+import android.app.Application
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -42,17 +43,18 @@ import com.example.tipplify.model.Recipe
 
 @Composable
 fun MainScreen(onRecipeScreen: (Int) -> Unit, viewModel: RecipeViewModel) {
+    val filteredRecipes by viewModel.filteredRecipes.collectAsState()
+    var searchText by remember { mutableStateOf("") }
 
 
-    val recipes by viewModel.recipes.collectAsState()
-    var searchText by remember { mutableStateOf("") } // Stan dla tekstu wyszukiwania
-    val filteredRecipes = searchRecipes(searchText, recipes) // Filtrowanie przepisów
+
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .paint(
-                painterResource(id = R.drawable.background), contentScale = ContentScale.FillHeight
+                painterResource(id = R.drawable.background),
+                contentScale = ContentScale.FillHeight,
             )
     ){
         Column(modifier = Modifier.fillMaxWidth(),horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
@@ -69,7 +71,10 @@ fun MainScreen(onRecipeScreen: (Int) -> Unit, viewModel: RecipeViewModel) {
                     .padding(top = 150.dp)
                     .background(color = Color.Gray.copy(alpha = 0.5f)),
                 value = searchText,
-                onValueChange = { searchText = it },
+                onValueChange = {
+                    searchText = it
+                    viewModel.searchRecipes(it)
+                },
                 label = { Text("Wyszukaj przepis...") }
             )
 
@@ -77,12 +82,12 @@ fun MainScreen(onRecipeScreen: (Int) -> Unit, viewModel: RecipeViewModel) {
                 modifier = Modifier
                     .padding(start = 16.dp, top = 80.dp, end = 16.dp),
             ) {
-                items(filteredRecipes.size) { index -> // Użyj filteredRecipes
+                items(filteredRecipes.size) { index ->
                     Text(text = filteredRecipes[index].name,
                         textAlign = TextAlign.Center,
                         color = Color(0xFFffffff),
                         modifier = Modifier
-                            .clickable { onRecipeScreen(filteredRecipes[index].id) }
+                            .clickable { filteredRecipes[index].id?.let { onRecipeScreen(it) } }
                             .padding(bottom = 8.dp)
                             .background(
                                 color = Color.Gray.copy(alpha = 0.5f),
@@ -98,14 +103,8 @@ fun MainScreen(onRecipeScreen: (Int) -> Unit, viewModel: RecipeViewModel) {
     }
 }
 
-fun searchRecipes(query: String, recipes: List<Recipe>): List<Recipe> {
-    return recipes.filter { recipe ->
-        recipe.name.contains(query, ignoreCase = true)
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
-    MainScreen(onRecipeScreen = {}, viewModel = RecipeViewModel())
+    MainScreen({}, RecipeViewModel(Application()))
 }
