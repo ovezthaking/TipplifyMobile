@@ -58,7 +58,7 @@ fun MainScreen(onRecipeScreen: (Int) -> Unit, viewModel: RecipeViewModel) {
             )
     ){
         Column(modifier = Modifier.fillMaxWidth(),horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-            Text("Przepisy", modifier = Modifier.padding(top = 40.dp), fontSize = 30.sp, color = Color(0xFFffffff))
+            Text("Przepisy", modifier = Modifier.padding(top = 70.dp), fontSize = 30.sp, color = Color(0xFFffffff))
         }
         Column(
             Modifier.fillMaxSize(),

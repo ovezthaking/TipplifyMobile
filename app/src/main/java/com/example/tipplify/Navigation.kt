@@ -14,7 +14,8 @@ import androidx.navigation.compose.rememberNavController
 fun Navigation() {
     val navController = rememberNavController()
     Scaffold(
-        bottomBar = { BottomMenu(navController = navController) }
+        bottomBar = { BottomMenu(navController = navController) },
+        topBar = { ActionBarMenu(navController = navController) }
     ) {
         BottomNavGraph(navController = navController)
     }
