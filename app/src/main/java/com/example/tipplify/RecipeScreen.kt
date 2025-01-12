@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -22,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -50,12 +52,6 @@ fun RecipeScreen(recipeId: Int, viewModel: RecipeViewModel) {
             verticalArrangement = Arrangement.Center
         ) {
             recipe?.let {
-                Text("Nazwa: ${it.name}", color = Color(0xFFffffff))
-                Text("Składniki:", color = Color(0xFFffffff))
-                it.ingredients.forEach { ingredient ->
-                    Text("- $ingredient", color = Color(0xFFffffff))
-                }
-                Text("Instrukcje: ${it.description}", color = Color(0xFFffffff))
                 if (!it.photoPath.isNullOrEmpty()) {
                     val imagePath = if (it.photoPath.startsWith("recipes/")) {
                         val file = File(context.filesDir, it.photoPath)
@@ -64,10 +60,24 @@ fun RecipeScreen(recipeId: Int, viewModel: RecipeViewModel) {
                         "file:///android_asset/${it.photoPath}"
                     }
                     AsyncImage(
+                        modifier = Modifier.height(200.dp).width(200.dp),
                         model = imagePath,
-                        contentDescription = "Zdjęcie przepisu"
+                        contentDescription = "Zdjęcie produktu"
                     )
                 }
+                Spacer(modifier = Modifier.height(40.dp))
+
+                Text("${it.name}", color = Color(0xFFffffff), fontSize = 30.sp ,fontWeight = FontWeight.Bold )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text("Składniki:", color = Color(0xFFffffff))
+                it.ingredients.forEach { ingredient ->
+                    Text("- $ingredient", color = Color(0xFFffffff))
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Text("Instrukcje: ${it.description}", color = Color(0xFFffffff))
+
             } ?: Text("Przepis nie znaleziony", color = Color(0xFFffffff))
         }
     }
