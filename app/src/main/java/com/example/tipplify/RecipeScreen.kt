@@ -34,33 +34,42 @@ import java.io.File
 fun RecipeScreen(recipeId: Int, viewModel: RecipeViewModel) {
     val recipe = viewModel.recipes.value.find { it.id == recipeId }
     val context = LocalContext.current
-    Column(
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF000000)),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .paint(
+                painterResource(id = R.drawable.background),
+                contentScale = ContentScale.FillHeight,
+            )
     ) {
-        recipe?.let {
-            Text("Nazwa: ${it.name}", color = Color(0xFFffffff))
-            Text("Składniki:", color = Color(0xFFffffff))
-            it.ingredients.forEach { ingredient ->
-                Text("- $ingredient", color = Color(0xFFffffff))
-            }
-            Text("Instrukcje: ${it.description}", color = Color(0xFFffffff))
-            if (!it.photoPath.isNullOrEmpty()) {
-                val imagePath = if (it.photoPath.startsWith("recipes/")) {
-                    val file = File(context.filesDir, it.photoPath)
-                    file.absolutePath
-                } else {
-                    "file:///android_asset/${it.photoPath}"
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            recipe?.let {
+                Text("Nazwa: ${it.name}", color = Color(0xFFffffff))
+                Text("Składniki:", color = Color(0xFFffffff))
+                it.ingredients.forEach { ingredient ->
+                    Text("- $ingredient", color = Color(0xFFffffff))
                 }
-                AsyncImage(
-                    model = imagePath,
-                    contentDescription = "Zdjęcie przepisu"
-                )
-            }
-        } ?: Text("Przepis nie znaleziony", color = Color(0xFFffffff))
+                Text("Instrukcje: ${it.description}", color = Color(0xFFffffff))
+                if (!it.photoPath.isNullOrEmpty()) {
+                    val imagePath = if (it.photoPath.startsWith("recipes/")) {
+                        val file = File(context.filesDir, it.photoPath)
+                        file.absolutePath
+                    } else {
+                        "file:///android_asset/${it.photoPath}"
+                    }
+                    AsyncImage(
+                        model = imagePath,
+                        contentDescription = "Zdjęcie przepisu"
+                    )
+                }
+            } ?: Text("Przepis nie znaleziony", color = Color(0xFFffffff))
+        }
     }
 }
 
