@@ -42,7 +42,8 @@ fun BottomNavGraph(navController: NavHostController) {
                 RecipeScreen(recipeId = recipeId, viewModel = viewModel)
             }
             composable(route = Screens.AddRecipeScreen.route) {
-                AddRecipeScreen { navController.navigate(Screens.MainScreen.route) }
+                val viewModel = viewModel<RecipeViewModel>()
+                AddRecipeScreen(onMainScreen = { navController.navigate(Screens.MainScreen.route) }, viewModel = viewModel)
             }
         }
     }
