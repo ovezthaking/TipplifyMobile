@@ -49,9 +49,19 @@ fun RecipeScreen(recipeId: Int, viewModel: RecipeViewModel) {
             modifier = Modifier
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Top
         ) {
+
+
+
             recipe?.let {
+
+                Spacer(modifier = Modifier.height(40.dp))
+
+                Text("${it.name}", color = Color(0xFFffffff), fontSize = 30.sp ,fontWeight = FontWeight.Bold )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
                 if (!it.photoPath.isNullOrEmpty()) {
                     val imagePath = if (it.photoPath.startsWith("recipes/")) {
                         val file = File(context.filesDir, it.photoPath)
@@ -67,9 +77,7 @@ fun RecipeScreen(recipeId: Int, viewModel: RecipeViewModel) {
                 }
                 Spacer(modifier = Modifier.height(40.dp))
 
-                Text("${it.name}", color = Color(0xFFffffff), fontSize = 30.sp ,fontWeight = FontWeight.Bold )
 
-                Spacer(modifier = Modifier.height(16.dp))
 
                 Text("Składniki:", color = Color(0xFFffffff))
                 it.ingredients.forEach { ingredient ->
@@ -78,7 +86,7 @@ fun RecipeScreen(recipeId: Int, viewModel: RecipeViewModel) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text("Instrukcje: ${it.description}", color = Color(0xFFffffff))
 
-            } ?: Text("Przepis nie znaleziony", color = Color(0xFFffffff))
+            } ?: Text("Przepis nie znaleziony", color = Color(0xFFffffff), modifier = Modifier.padding(top = 100.dp))
         }
     }
 }

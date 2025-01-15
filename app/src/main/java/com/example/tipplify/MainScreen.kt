@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
@@ -39,6 +40,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.min
 import com.example.tipplify.model.Recipe
 
 @Composable
@@ -80,8 +82,10 @@ fun MainScreen(onRecipeScreen: (Int) -> Unit, viewModel: RecipeViewModel) {
 
             LazyColumn(
                 modifier = Modifier
-                    .padding(start = 16.dp, top = 80.dp, end = 16.dp),
+                    .padding(start = 16.dp, top = 80.dp, end = 16.dp)
+                    .heightIn(min = 0.dp, max =350.dp),
             ) {
+
                 items(filteredRecipes.size) { index ->
                     Text(text = filteredRecipes[index].name,
                         textAlign = TextAlign.Center,

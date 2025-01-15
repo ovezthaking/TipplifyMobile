@@ -91,6 +91,7 @@ fun AddRecipeScreen(onMainScreen: () -> Unit, viewModel: RecipeViewModel) {
                     .width(300.dp)
             )
             OutlinedTextField(
+                textStyle = androidx.compose.ui.text.TextStyle(color = Color.White),
                 value = ingredients,
                 onValueChange = { ingredients = it },
                 label = { Text("Składniki (oddzielone przecinkami)", color = Color.Gray) },
@@ -99,6 +100,7 @@ fun AddRecipeScreen(onMainScreen: () -> Unit, viewModel: RecipeViewModel) {
                     .width(300.dp)
             )
             OutlinedTextField(
+                textStyle = androidx.compose.ui.text.TextStyle(color = Color.White),
                 value = description,
                 onValueChange = { description = it },
                 label = { Text("Opis", color = Color.Gray) },
