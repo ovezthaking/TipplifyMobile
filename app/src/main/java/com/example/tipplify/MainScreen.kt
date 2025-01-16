@@ -14,8 +14,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -35,12 +39,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tipplify.model.RecipeViewModel
 
+
+
+
+
 @Composable
 fun MainScreen(onRecipeScreen: (Int) -> Unit, viewModel: RecipeViewModel) {
     val filteredRecipes by viewModel.filteredRecipes.collectAsState()
     var searchText by remember { mutableStateOf("") }
-
-
+    var showIngredientDialog by remember { mutableStateOf(false) }
+    val availableIngredients by viewModel.availableIngredients.collectAsState()
+    val selectedIngredients by viewModel.selectedIngredients.collectAsState()
+    var showIngredientList by remember { mutableStateOf(false) }
+    var selectedIngredientToEdit by remember { mutableStateOf<String?>(null) }
 
 
     Box(
@@ -71,7 +82,89 @@ fun MainScreen(onRecipeScreen: (Int) -> Unit, viewModel: RecipeViewModel) {
                 },
                 label = { Text("Wyszukaj przepis...") }
             )
+            if (selectedIngredients.isEmpty()) {
+                Button(
+                    onClick = { showIngredientDialog = true },
+                    modifier = Modifier.padding(top = 8.dp)
+                ) {
+                    Text("Wybierz składnik")
+                }
+            } else {
+                selectedIngredients.forEach { ingredient ->
+                    Button(
+                        onClick = { selectedIngredientToEdit = ingredient },
+                        modifier = Modifier.padding(top = 8.dp)
+                    ) {
+                        Text(ingredient)
+                    }
+                }
+            }
 
+            if (showIngredientDialog) {
+                AlertDialog(
+                    onDismissRequest = { showIngredientDialog = false },
+                    title = { Text("Wybierz składnik") },
+                    text = {
+                        LazyColumn {
+                            items(availableIngredients) { ingredient ->
+                                Text(
+                                    text = ingredient,
+                                    modifier = Modifier
+                                        .clickable {
+                                            viewModel.selectIngredient(ingredient)
+                                            showIngredientDialog = false
+                                            showIngredientList = true
+                                        }
+                                        .padding(8.dp)
+                                )
+                            }
+                        }
+                    },
+                    confirmButton = {
+                        TextButton(onClick = { showIngredientDialog = false }) {
+                            Text("Anuluj")
+                        }
+                    }
+                )
+            }
+            if (selectedIngredientToEdit != null) {
+                AlertDialog(
+                    onDismissRequest = { selectedIngredientToEdit = null },
+                    title = { Text("Edytuj składnik") },
+                    text = {
+                        Column {
+                            Text(
+                                text = "Czy chcesz usunąć składnik ${selectedIngredientToEdit}?",
+                                modifier = Modifier.padding(8.dp)
+                            )
+                        }
+                    },
+                    confirmButton = {
+                        TextButton(onClick = {
+                            viewModel.removeIngredient(selectedIngredientToEdit!!)
+                            selectedIngredientToEdit = null
+                        }) {
+                            Text("Usuń")
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = {
+                            showIngredientDialog = true
+                            selectedIngredientToEdit = null
+                        }) {
+                            Text("Podmień")
+                        }
+                    }
+                )
+            }
+            if (showIngredientList && selectedIngredients.isNotEmpty()) {
+                Button(
+                    onClick = { showIngredientDialog = true },
+                    modifier = Modifier.padding(top = 8.dp)
+                ) {
+                    Text("Wybierz kolejny składnik")
+                }
+            }
             LazyColumn(
                 modifier = Modifier
                     .padding(start = 16.dp, top = 80.dp, end = 16.dp)
@@ -98,6 +191,7 @@ fun MainScreen(onRecipeScreen: (Int) -> Unit, viewModel: RecipeViewModel) {
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
