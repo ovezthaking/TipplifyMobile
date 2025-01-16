@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -38,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tipplify.model.RecipeViewModel
+
 
 
 
@@ -82,23 +84,44 @@ fun MainScreen(onRecipeScreen: (Int) -> Unit, viewModel: RecipeViewModel) {
                 },
                 label = { Text("Wyszukaj przepis...") }
             )
-            if (selectedIngredients.isEmpty()) {
-                Button(
-                    onClick = { showIngredientDialog = true },
-                    modifier = Modifier.padding(top = 8.dp)
-                ) {
-                    Text("Wybierz składnik")
+            LazyColumn(
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .heightIn(max = 100.dp)
+            ) {
+                item {
+                    if (selectedIngredients.isEmpty()) {
+                        Button(
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray.copy(alpha = 0.6f)),
+                            onClick = { showIngredientDialog = true },
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        ) {
+                            Text("Wybierz składnik")
+                        }
+                    }
                 }
-            } else {
-                selectedIngredients.forEach { ingredient ->
+                items(selectedIngredients) { ingredient ->
                     Button(
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.LightGray.copy(alpha = 0.6f)),
                         onClick = { selectedIngredientToEdit = ingredient },
-                        modifier = Modifier.padding(top = 8.dp)
+                        modifier = Modifier.padding(bottom = 8.dp)
                     ) {
                         Text(ingredient)
                     }
                 }
+                item {
+                    if (showIngredientList && selectedIngredients.isNotEmpty()) {
+                        Button(
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray.copy(alpha = 0.6f)),
+                            onClick = { showIngredientDialog = true },
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        ) {
+                            Text("Wybierz kolejny składnik")
+                        }
+                    }
+                }
             }
+
 
             if (showIngredientDialog) {
                 AlertDialog(
@@ -152,19 +175,12 @@ fun MainScreen(onRecipeScreen: (Int) -> Unit, viewModel: RecipeViewModel) {
                             showIngredientDialog = true
                             selectedIngredientToEdit = null
                         }) {
-                            Text("Podmień")
+                            Text("Zamień")
                         }
                     }
                 )
             }
-            if (showIngredientList && selectedIngredients.isNotEmpty()) {
-                Button(
-                    onClick = { showIngredientDialog = true },
-                    modifier = Modifier.padding(top = 8.dp)
-                ) {
-                    Text("Wybierz kolejny składnik")
-                }
-            }
+
             LazyColumn(
                 modifier = Modifier
                     .padding(start = 16.dp, top = 80.dp, end = 16.dp)
@@ -191,6 +207,7 @@ fun MainScreen(onRecipeScreen: (Int) -> Unit, viewModel: RecipeViewModel) {
         }
     }
 }
+
 
 
 @Preview(showBackground = true)

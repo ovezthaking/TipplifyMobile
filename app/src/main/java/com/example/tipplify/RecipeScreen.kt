@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,7 +55,7 @@ fun RecipeScreen(recipeId: Int, viewModel: RecipeViewModel) {
 
                 Spacer(modifier = Modifier.height(40.dp))
 
-                Text(it.name, color = Color(0xFFffffff), fontSize = 30.sp ,fontWeight = FontWeight.Bold )
+                Text(it.name, color = Color(0xFFffffff), fontSize = 30.sp ,fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 70.dp), textAlign = TextAlign.Center )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -66,23 +67,28 @@ fun RecipeScreen(recipeId: Int, viewModel: RecipeViewModel) {
                         "file:///android_asset/${it.photoPath}"
                     }
                     AsyncImage(
-                        modifier = Modifier.height(200.dp).width(200.dp),
+                        modifier = Modifier.height(200.dp).width(200.dp).padding(top = 30.dp, bottom = 10.dp),
                         model = imagePath,
                         contentDescription = "Zdjęcie produktu"
                     )
                 }
                 Spacer(modifier = Modifier.height(40.dp))
 
+                Text("Składniki:", color = Color(0xFFffffff), textAlign = TextAlign.Center)
+                Spacer(modifier = Modifier.height(8.dp))
+                Column(
+                    horizontalAlignment = Alignment.Start
+                ){
 
-
-                Text("Składniki:", color = Color(0xFFffffff))
-                it.ingredients.forEach { ingredient ->
-                    Text("- $ingredient", color = Color(0xFFffffff))
+                    it.ingredients.forEach { ingredient ->
+                        Text("- $ingredient", color = Color(0xFFffffff), textAlign = TextAlign.Left, modifier = Modifier.padding(start = 20.dp, end = 20.dp))
+                    }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Text("Instrukcje: ${it.description}", color = Color(0xFFffffff))
 
-            } ?: Text("Przepis nie znaleziony", color = Color(0xFFffffff), modifier = Modifier.padding(top = 100.dp))
+                Text("Instrukcje: \n${it.description}", color = Color(0xFFffffff), modifier = Modifier.padding(top = 20.dp, start = 30.dp, end = 30.dp))
+
+            } ?: Text("Przepis nie znaleziony", color = Color(0xFFffffff), modifier = Modifier.padding(top = 100.dp), textAlign = TextAlign.Center)
         }
     }
 }
@@ -90,7 +96,7 @@ fun RecipeScreen(recipeId: Int, viewModel: RecipeViewModel) {
 @Preview(showBackground = true)
 @Composable
 fun RecipeScreenPreview() {
-    RecipeScreen(1, RecipeViewModel(Application()))
+    RecipeScreen(recipeId = 1, viewModel = RecipeViewModel(Application()))
 }
 
 
