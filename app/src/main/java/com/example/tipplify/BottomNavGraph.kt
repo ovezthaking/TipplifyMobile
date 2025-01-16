@@ -2,8 +2,6 @@ package com.example.tipplify
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,7 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.tipplify.model.RecipeViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun BottomNavGraph(navController: NavHostController) {
@@ -42,7 +40,8 @@ fun BottomNavGraph(navController: NavHostController) {
                 RecipeScreen(recipeId = recipeId, viewModel = viewModel)
             }
             composable(route = Screens.AddRecipeScreen.route) {
-                AddRecipeScreen { navController.navigate(Screens.MainScreen.route) }
+                val viewModel = viewModel<RecipeViewModel>()
+                AddRecipeScreen(onMainScreen = { navController.navigate(Screens.MainScreen.route) }, viewModel = viewModel)
             }
         }
     }
