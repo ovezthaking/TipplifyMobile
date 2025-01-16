@@ -1,6 +1,6 @@
 package com.example.tipplify
 
-import android.app.Application
+
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -10,7 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.tipplify.model.RecipeViewModel
+
 
 @Composable
 fun BottomMenu(navController: NavHostController) {

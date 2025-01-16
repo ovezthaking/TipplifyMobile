@@ -2,8 +2,6 @@ package com.example.tipplify
 
 import android.annotation.SuppressLint
 import android.app.Application
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -58,7 +54,7 @@ fun RecipeScreen(recipeId: Int, viewModel: RecipeViewModel) {
 
                 Spacer(modifier = Modifier.height(40.dp))
 
-                Text("${it.name}", color = Color(0xFFffffff), fontSize = 30.sp ,fontWeight = FontWeight.Bold )
+                Text(it.name, color = Color(0xFFffffff), fontSize = 30.sp ,fontWeight = FontWeight.Bold )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -96,3 +92,6 @@ fun RecipeScreen(recipeId: Int, viewModel: RecipeViewModel) {
 fun RecipeScreenPreview() {
     RecipeScreen(1, RecipeViewModel(Application()))
 }
+
+
+//wyszukiwanie po składnikach!!!!!!! na 5

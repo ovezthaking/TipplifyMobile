@@ -1,13 +1,8 @@
 package com.example.tipplify.model
 
 import android.app.Application
-import androidx.activity.result.launch
-
-
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -17,7 +12,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStreamWriter
-import kotlin.concurrent.write
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     private val _recipes = MutableStateFlow<List<Recipe>>(emptyList())
@@ -32,9 +26,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         loadRecipes()
     }
 
-    fun refreshRecipes() {
-        loadRecipes()
-    }
 
     private fun loadRecipes() {
         viewModelScope.launch {
@@ -96,7 +87,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             try {
                 val fileName = "recipes/recipe_${recipe.id}.json"
                 val outputFile = File(getApplication<Application>().filesDir, fileName)
-                val outputStream = java.io.FileOutputStream(outputFile)
+                val outputStream = FileOutputStream(outputFile)
                 val writer = OutputStreamWriter(outputStream)
                 val jsonString = Json.encodeToString(recipe)
                 writer.use { it.write(jsonString) }

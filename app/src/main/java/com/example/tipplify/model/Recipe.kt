@@ -11,5 +11,7 @@ data class Recipe(
     val photoPath: String? = null
 )
 
+/*
 @Serializable
 data class RecipeList(val recipes: List<Recipe>)
+ */

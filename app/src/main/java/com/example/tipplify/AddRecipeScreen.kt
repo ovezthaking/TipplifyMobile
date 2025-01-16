@@ -5,18 +5,14 @@ import android.content.Context
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.launch
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text2.input.delete
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,13 +36,10 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.util.UUID
-import kotlin.io.path.copyTo
-import kotlin.io.path.exists
-import kotlin.text.map
 import kotlin.text.split
 import kotlin.text.trim
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun AddRecipeScreen(onMainScreen: () -> Unit, viewModel: RecipeViewModel) {
     var name by remember { mutableStateOf("") }
@@ -152,7 +145,7 @@ private fun copyImageToAssets(context: Context, uri: Uri): String {
                 output.flush()
             }
         }
-        val assetManager = context.assets
+        //val assetManager = context.assets
         val assetDir = File(context.filesDir, "recipes")
         if(!assetDir.exists()){
             assetDir.mkdir()

@@ -24,11 +24,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ActionBarMenu(navController: NavHostController){
+fun ActionBarMenu(){
     val context = LocalContext.current
     var displayMenu by remember { mutableStateOf(false) }
 
