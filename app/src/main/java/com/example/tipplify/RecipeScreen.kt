@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -85,9 +86,11 @@ fun RecipeScreen(recipeId: Int, viewModel: RecipeViewModel) {
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-
-                Text("Instrukcje: \n${it.description}", color = Color(0xFFffffff), modifier = Modifier.padding(top = 20.dp, start = 30.dp, end = 30.dp))
-
+                LazyColumn(modifier = Modifier.padding(top = 20.dp, start = 30.dp, end = 30.dp, bottom = 20.dp)) {
+                    item { // Add the Text composable as an item in LazyColumn
+                        Text("Instrukcje: \n${it.description}", color = Color(0xFFffffff))
+                    }
+                }
             } ?: Text("Przepis nie znaleziony", color = Color(0xFFffffff), modifier = Modifier.padding(top = 100.dp), textAlign = TextAlign.Center)
         }
     }
